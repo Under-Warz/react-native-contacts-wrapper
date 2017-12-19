@@ -69,10 +69,10 @@ RCT_EXPORT_METHOD(getEmail:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseR
   UIViewController *root = [[[UIApplication sharedApplication] delegate] window].rootViewController;
   BOOL modalPresent = (BOOL) (root.presentedViewController);
   if (modalPresent) {
-	  UIViewController *parent = root.presentedViewController;
-	  [parent presentViewController:picker animated:YES completion:nil];
+    UIViewController *parent = root.presentedViewController;
+    [parent presentViewController:picker animated:YES completion:nil];
   } else {
-	  [root presentViewController:picker animated:YES completion:nil];
+    [root presentViewController:picker animated:YES completion:nil];
   }
   
 }
@@ -107,7 +107,7 @@ RCT_EXPORT_METHOD(getEmail:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseR
 
 
 - (NSMutableDictionary *) emptyContactDict {
-  return [[NSMutableDictionary alloc] initWithObjects:@[@"", @"", @"", @""] forKeys:@[@"name", @"phone", @"email", @"postalAddress"]];
+  return [[NSMutableDictionary alloc] initWithObjects:@[@"", @"", @"", @"", @""] forKeys:@[@"name", @"phone", @"email", @"postalAddress", @"note"]];
 }
 
 /**
@@ -136,6 +136,7 @@ RCT_EXPORT_METHOD(getEmail:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseR
       NSArray *phoneNos = contact.phoneNumbers;
       NSArray *emailAddresses = contact.emailAddresses;
       NSArray *postalAddresses = contact.postalAddresses;
+      NSString *note = contact.note;
       
       //Return full name
       [contactData setValue:fullName forKey:@"name"];
@@ -153,8 +154,21 @@ RCT_EXPORT_METHOD(getEmail:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseR
 
       //Return first postal address
       if([postalAddresses count] > 0) {
-        [contactData setValue:((CNLabeledValue *)postalAddresses[0]).value forKey:@"postalAddress"];
+        CNLabeledValue<CNPostalAddress*>* labeledValue = ((CNLabeledValue *)postalAddresses[0]);
+        NSDictionary *values = @{
+                                 @"street": labeledValue.value.street,
+                                 @"city": labeledValue.value.city,
+                                 @"state": labeledValue.value.state,
+                                 @"postalCode": labeledValue.value.postalCode,
+                                 @"country": labeledValue.value.country,
+                                 @"ISOCountryCode": labeledValue.value.ISOCountryCode
+                                 };
+        
+        [contactData setValue:values forKey:@"postalAddress"];
       }
+      
+      // Note
+      [contactData setValue:note forKey:@"note"];
       
       [self contactPicked:contactData];
     }
