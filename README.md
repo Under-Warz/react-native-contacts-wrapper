@@ -63,7 +63,7 @@ make sure you have the following setting even if you have done `react-native upg
 
 ```
 
-Also add 
+Also add
 
 ```
 <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -86,7 +86,7 @@ Also add
 
 ##API
 
-`getContact` (Promise) - returns basic contact data as a JS object.  Currently returns name, first phone number and first email for contact.
+`getContact` (Promise) - returns basic contact data as a JS object.  Currently returns name, first phone number, first email for contact, first postal address and note.
 `getEmail` (Promise) - returns first email address (if found) for contact as string.
 
 
