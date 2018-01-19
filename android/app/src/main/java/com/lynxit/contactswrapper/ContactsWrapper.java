@@ -57,6 +57,11 @@ public class ContactsWrapper extends ReactContextBaseJavaModule implements Activ
         add(ContactsContract.CommonDataKinds.Email.ADDRESS);
         add(ContactsContract.CommonDataKinds.Email.TYPE);
         add(ContactsContract.CommonDataKinds.Email.LABEL);
+        add(ContactsContract.CommonDataKinds.StructuredPostal.STREET);
+        add(ContactsContract.CommonDataKinds.StructuredPostal.CITY);
+        add(ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE);
+        add(ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY);
+        add(ContactsContract.CommonDataKinds.Note.NOTE);
     }};
 
 
@@ -157,6 +162,8 @@ public class ContactsWrapper extends ReactContextBaseJavaModule implements Activ
                             returnKeys.put(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE, "name");
                             returnKeys.put(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE, "phone");
                             returnKeys.put(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE, "email");
+                            returnKeys.put(ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE, "postalAddress");
+                            returnKeys.put(ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE, "note");
 
                             int dataIdx = cursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1);
                             int mimeIdx = cursor.getColumnIndex(ContactsContract.Contacts.Entity.MIMETYPE);
